@@ -3,15 +3,8 @@ resource "aws_s3_bucket" "insecure-bucket" {
   versioning {
     enabled = true
   }
-
-  # Check the AWS provider version to determine if the logging block is needed
-  dynamic "logging" {
-    for_each = can(tristate(condition, false, null))
-    content {
-      target_bucket = aws_s3_bucket.logging_bucket.id
-      target_prefix = "logs/"
-    }
-  }
+  enable_logging = true
+  enable_log_file_validation = true
 }
 
 # resource "aws_s3_bucket_public_access_block" "insecure-bucket" {
