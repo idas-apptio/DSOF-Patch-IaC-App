@@ -2,6 +2,10 @@ resource "aws_s3_bucket" "insecure-bucket" {
   bucket = "insecure-bucket"
   versioning {
     enabled = true
+    mfa_delete = true
+  }
+  versioning_configuration {
+    mfa_delete = "Enabled"
   }
   logging {
     target_bucket = "your-logging-bucket-name"
