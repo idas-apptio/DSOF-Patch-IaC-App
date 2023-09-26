@@ -3,8 +3,16 @@ resource "aws_s3_bucket" "insecure-bucket" {
   versioning {
     enabled = true
   }
-  enable_logging = true
-  enable_log_file_validation = true
+  logging {
+    target_bucket = "your-logging-bucket-name"
+    target_prefix = "logs/"  # Optional: specify a prefix for the log objects
+  }
+}
+
+resource "aws_s3_bucket_logging" "bucket-logging" {
+  bucket = aws_s3_bucket.insecure-bucket.id
+  target_bucket = "your-logging-bucket-name"
+  target_prefix = "logs/"  # Optional: specify a prefix for the log objects
 }
 
 # resource "aws_s3_bucket_public_access_block" "insecure-bucket" {
